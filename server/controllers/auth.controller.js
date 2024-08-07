@@ -99,6 +99,3 @@ export const logout = (req, res) => {
   }
 };
 
-export const test = async (req, res) => {
-  res.json("Welcome");
-};
