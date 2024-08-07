@@ -20,7 +20,11 @@ export const register = async (req, res) => {
     if (existingEmail) {
       return res.status(400).json({ error: "Email is already taken" });
     }
-
+    if (password.length < 7) {
+      return res
+        .status(400)
+        .json({ error: "Password must be at least 7 characters long" });
+    }
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords do not match" });
     }
@@ -35,12 +39,12 @@ export const register = async (req, res) => {
     });
 
     if (newUser) {
-      generateTokenAndSetCookie(newUser._id, res);
       await newUser.save();
+      generateTokenAndSetCookie(newUser._id, res);
       res.status(201).json({
         _id: newUser._id,
         fullName: newUser.fullName,
-        email: newUser.fullName,
+        email: newUser.email,
       });
     } else {
       res.status(400).json({ error: "Invalid user data" });
@@ -64,27 +68,28 @@ export const login = async (req, res) => {
         .json({ error: "Please, enter a valid email address" });
     }
 
-    const user = await User.findOne({email: email});
-    const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
-    if(!user || !isPasswordCorrect) {
-        return res.status(404).json({error: "Invalid email or password"});
+    const user = await User.findOne({ email: email });
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      user?.password || ""
+    );
+    if (!user || !isPasswordCorrect) {
+      return res.status(404).json({ error: "Invalid email or password" });
     }
 
     generateTokenAndSetCookie(user._id, res);
     res.status(200).json({
-        _id: user._id,
-        fullName: user.fullName,
-        email: user.fullName,
-    })
-
-
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+    });
   } catch (error) {
     console.log("Error in auth controller, login function: ", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-export const logout = async (req, res) => {
+export const logout = (req, res) => {
   try {
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
@@ -94,6 +99,6 @@ export const logout = async (req, res) => {
   }
 };
 
-export const test = async(req, res) => {
+export const test = async (req, res) => {
   res.json("Welcome");
-}
+};
