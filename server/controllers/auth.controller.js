@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
+
+
 export const register = async(req, res) => {
     try {
         const {fullName, email, password, confirmPassword} = req.body;
@@ -44,6 +46,16 @@ export const register = async(req, res) => {
         
     } catch(error) {
         console.log("Error in auth controller, register function: ", error.message);
+        res.status(500).json({error: "Internal Server Error"});
+    }
+}
+
+export const logout = async(req, res) => {
+    try {
+        res.cookie("jwt", "", {maxAge: 0});
+        res.status(200).json({message: "Logged out successfully"});
+    } catch(error) {
+        console.log("Error in auth controller, logout function: ", error.message);
         res.status(500).json({error: "Internal Server Error"});
     }
 }
