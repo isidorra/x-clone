@@ -39,7 +39,7 @@ export const deletePost = async (req, res) => {
     const { postId } = req.params;
     const { userId } = req.user._id;
 
-    const post = Post.findById(postId);
+    const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
@@ -54,6 +54,16 @@ export const deletePost = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getAll = async(req, res) => {
+    try {
+        const posts = await Post.find();
+        res.status(200).json(posts);
+    } catch(error) {
+        console.log("Error in post controller, getAll function: ", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
 
 export const getAllByAuthorId = async (req, res) => {
   try {
