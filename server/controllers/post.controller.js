@@ -43,15 +43,16 @@ export const create = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const { postId } = req.params;
-    const { userId } = req.user._id;
+    const userId = req.user._id;
 
     const post = await Post.findById(postId);
+    
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
-    if (post.author !== userId) {
+    if (!post.author.equals(userId)) {
       return res.status(400).json({ error: "You are not the author" });
-    }
+   }
 
     await post.deleteOne({ _id: postId });
     res.status(200).json({ message: "Post deleted" });
