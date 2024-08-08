@@ -18,13 +18,19 @@ export const create = async (req, res) => {
       author: authorId,
     });
 
+    const populatedPost = await newPost.populate("author", ["fullName","profilePhoto"]);
+
     if (newPost) {
       await newPost.save();
       res.status(201).json({
         _id: newPost._id,
         content: newPost.content,
         photo: newPost.photo,
-        author: newPost.author,
+        author: {
+          _id: populatedPost.author._id,
+          fullName: populatedPost.author.fullName,
+          profilePhoto: populatedPost.author.profilePhoto,
+        },
         createdAt: newPost.createdAt,
       });
     }

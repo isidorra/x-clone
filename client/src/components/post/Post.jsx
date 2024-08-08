@@ -19,6 +19,11 @@ const Post = ({ post }) => {
               Follow
             </button>
           )}
+          {post.author._id === authUser._id && (
+            <button className="text-red-500 border border-red-500 border-opacity-50 rounded-full py-2 px-3 mr-auto">
+                Delete
+            </button>
+          )}
         </div>
       </div>
       <div className="mt-5">

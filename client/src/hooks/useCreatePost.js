@@ -2,9 +2,11 @@ import axios from "axios";
 import { useState } from "react"
 import toast from "react-hot-toast";
 import { SERVER_URL } from "../App";
+import { usePostsContext } from "../context/PostsContext";
 
 const useCreatePost = () => {
   const [loading, setLoading] = useState(false);
+  const {forYouPosts, setForYouPosts} = usePostsContext();
   
   const createPost = async(content, photo) => {
     if(!content && !photo) {
@@ -18,6 +20,7 @@ const useCreatePost = () => {
         if(response.error) throw new Error(response.error);
 
         toast.success("Successfully created post");
+        setForYouPosts([response.data, ...forYouPosts]);
     } catch(error) {
         toast.error(error.message);
     } finally {

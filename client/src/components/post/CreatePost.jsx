@@ -13,6 +13,7 @@ const CreatePost = () => {
   const handleSubmit = async(ev) => {
     ev.preventDefault(); 
     await createPost(content, photo);
+    setContent("");
   }
 
   return (

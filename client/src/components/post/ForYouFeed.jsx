@@ -1,13 +1,15 @@
+import { usePostsContext } from "../../context/PostsContext";
 import useGetAllPosts from "../../hooks/useGetAllPosts";
 import Post from "./Post";
 
 const ForYouFeed = () => {
-  const { loading, posts } = useGetAllPosts();
+  const { loading} = useGetAllPosts();
+  const {forYouPosts} = usePostsContext();
   return <div>
     {loading && <p>Loading....</p>}
-    {!loading && posts &&
+    {!loading && forYouPosts &&
         <div>
-            {posts.map((post) => 
+            {forYouPosts.map((post) => 
                 <Post key={post._id} post={post}/>
             )}
         </div>}
