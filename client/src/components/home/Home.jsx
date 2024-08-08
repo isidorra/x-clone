@@ -1,12 +1,13 @@
-import useLogout from "../../hooks/useLogout"
+import Feed from "./Feed"
+import FollowingSuggestions from "./FollowingSuggestions"
 
 const Home = () => {
-  const {loading, logout} = useLogout(); 
   return (
-    <div>
-      <p>Home</p>
+    <div className="w-full flex items-start justify-between">
+      <Feed/>
+      <FollowingSuggestions/>
 
-      <button onClick={logout} disabled={loading}>{loading ? <p>...</p> : <p>Logout</p>}</button>
+      
 
     </div>
   )

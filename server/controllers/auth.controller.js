@@ -45,6 +45,7 @@ export const register = async (req, res) => {
         _id: newUser._id,
         fullName: newUser.fullName,
         email: newUser.email,
+        profilePhoto: newUser.profilePhoto
       });
     } else {
       res.status(400).json({ error: "Invalid user data" });
@@ -82,6 +83,7 @@ export const login = async (req, res) => {
       _id: user._id,
       fullName: user.fullName,
       email: user.email,
+      profilePhoto: user.profilePhoto
     });
   } catch (error) {
     console.log("Error in auth controller, login function: ", error.message);

@@ -57,7 +57,7 @@ export const deletePost = async (req, res) => {
 
 export const getAll = async(req, res) => {
     try {
-        const posts = await Post.find();
+        const posts = await Post.find().populate("author", ["fullName", "profilePhoto"]).sort({createdAt: -1});
         res.status(200).json(posts);
     } catch(error) {
         console.log("Error in post controller, getAll function: ", error.message);
