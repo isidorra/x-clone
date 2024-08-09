@@ -81,7 +81,7 @@ export const getAllByAuthorId = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const posts = await Post.find({ author: userId });
+    const posts = await Post.find({ author: userId }).populate("author", ["fullName", "profilePhoto"]).sort({createdAt: -1});
     res.status(200).json({posts});
   } catch (error) {
     console.log("Error in post controller, getAllByUserId function: ", error.message);

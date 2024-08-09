@@ -20,7 +20,7 @@ const useFollow = () => {
       setAuthUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
 
-      toast.success("Follow/unfollow action successful!");
+      // toast.success("Follow/unfollow action successful!");
     } catch (error) {
       toast.error(error.message);
     } finally {

@@ -9,9 +9,10 @@ export const usePostsContext = () => {
 export const PostsContextProvider = ({children}) => {
     const [forYouPosts, setForYouPosts] = useState([]);
     const [followingPosts, setFollowingPosts] = useState([]);
+    const [userPosts, setUserPosts] = useState([]);
 
     return (
-        <PostsContext.Provider value={{forYouPosts, setForYouPosts, followingPosts, setFollowingPosts}}>
+        <PostsContext.Provider value={{forYouPosts, setForYouPosts, followingPosts, setFollowingPosts, userPosts, setUserPosts}}>
             {children}
         </PostsContext.Provider>
     )

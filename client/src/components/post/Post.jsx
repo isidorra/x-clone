@@ -9,11 +9,13 @@ const Post = ({ post }) => {
   const { authUser } = useAuthContext();
   const { loading, deletePost } = useDeletePost();
   const { loadingFollow, follow } = useFollow();
-  const { forYouPosts, setForYouPosts } = usePostsContext();
+  const { forYouPosts, setForYouPosts, userPosts, setUserPosts } = usePostsContext();
+
 
   const handleDelete = (postId) => {
     deletePost(postId, () => {
       setForYouPosts(forYouPosts.filter((p) => p._id !== postId));
+      setUserPosts(userPosts.filter((p) => p._id !== postId));
     });
   };
 
