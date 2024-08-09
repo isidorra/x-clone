@@ -120,11 +120,12 @@ export const like = async (req, res) => {
     await updatedPost.populate("author", ["fullName", "profilePhoto"]);
     res.status(200).json({
       _id: updatedPost._id,
-      content: updatedPost._id,
+      content: updatedPost.content,
       photo: updatedPost.photo,
       author: updatedPost.author,
       likes: updatedPost.likes,
-      comments: updatedPost.comments
+      comments: updatedPost.comments,
+      createdAt: updatedPost.createdAt
     });
 
   } catch (error) {

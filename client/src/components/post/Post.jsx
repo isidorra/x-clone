@@ -4,11 +4,16 @@ import { useAuthContext } from "../../context/AuthContext";
 import useDeletePost from "../../hooks/post/useDeletePost";
 import { usePostsContext } from "../../context/PostsContext";
 import useFollow from "../../hooks/user/useFollow";
+import likeIcon from "../../assets/like.svg";
+import likedIcon from "../../assets/liked.svg";
+import commentIcon from "../../assets/comment.svg";
+import useLike from "../../hooks/post/useLike";
 
 const Post = ({ post }) => {
   const { authUser } = useAuthContext();
   const { loading, deletePost } = useDeletePost();
   const { loadingFollow, follow } = useFollow();
+  const {loadingLike, like} = useLike();
   const { forYouPosts, setForYouPosts, userPosts, setUserPosts } = usePostsContext();
 
 
@@ -21,6 +26,17 @@ const Post = ({ post }) => {
 
   const handleFollow = async () => {
     await follow(post.author._id);
+  };
+
+  const handleLike = async () => {
+    const updatedPost = await like(post._id);
+    if (updatedPost) {
+      const updatedPosts = forYouPosts.map(p =>
+        p._id === updatedPost._id ? updatedPost : p
+      );
+      setForYouPosts(updatedPosts);
+      setUserPosts(updatedPosts);
+    }
   };
 
   return (
@@ -66,6 +82,18 @@ const Post = ({ post }) => {
       <div className="mt-5">
         <p className="text-justify">{post.content}</p>
         <img className="w-full mt-5" alt="Post" />
+      </div>
+
+      <div className="flex items-center gap-5 mt-10">
+        <div className="flex items-center gap-2 hover:gap-3 duration-200">
+          <img onClick={handleLike} disabled={loadingLike} src={post.likes.includes(authUser._id) ? likedIcon : likeIcon} alt="Like"/>
+          <p>{post.likes.length}</p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <img src={commentIcon} alt="Comment"/>
+          <p>{post.comments.length}</p>
+        </div>
       </div>
     </div>
   );

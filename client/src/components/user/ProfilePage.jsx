@@ -89,7 +89,7 @@ const ProfilePage = () => {
             </div>
 
             {loadingPosts && <p>...</p>}
-            {!loadingPosts && !userPosts && <p>No posts yet.</p>}
+            {!loadingPosts && userPosts.length === 0 && <p className="mt-10">No posts yet.</p>}
             {!loadingPosts && userPosts && 
             <div className="mt-10 border-t border-secondary border-opacity-50">
               {userPosts.map((userPost) => 
