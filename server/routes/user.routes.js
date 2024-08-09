@@ -5,7 +5,7 @@ import { follow, getRandomUsersNotFollowing, getUserInfo } from "../controllers/
 const router = express.Router();
 
 router.get("/:userId", protectRoute, getUserInfo);
-router.post("/follow/:userToFollowId", protectRoute, follow);
+router.post("/follow", protectRoute, follow);
 router.get("/follow/suggestions", protectRoute, getRandomUsersNotFollowing);
 
 export default router;
