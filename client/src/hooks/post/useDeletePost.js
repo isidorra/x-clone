@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { SERVER_URL } from "../App";
+import { SERVER_URL } from "../../App";
 
 const useDeletePost = () => {
   const [loading, setLoading] = useState(false);

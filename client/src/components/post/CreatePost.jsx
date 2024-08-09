@@ -2,7 +2,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import profileIcon from "../../assets/profile-user.png";
 import imageIcon from "../../assets/image.svg";
 import { useState } from "react";
-import useCreatePost from "../../hooks/useCreatePost";
+import useCreatePost from "../../hooks/post/useCreatePost";
 
 const CreatePost = () => {
   const { authUser } = useAuthContext();

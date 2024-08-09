@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react"
 import toast from "react-hot-toast";
-import { SERVER_URL } from "../App";
-import { usePostsContext } from "../context/PostsContext";
+import { SERVER_URL } from "../../App";
+import { usePostsContext } from "../../context/PostsContext";
 
 const useCreatePost = () => {
   const [loading, setLoading] = useState(false);

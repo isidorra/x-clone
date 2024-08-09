@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import { useState } from "react";
-import useRegister from "../../hooks/useRegister";
+import useRegister from "../../hooks/auth/useRegister";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");

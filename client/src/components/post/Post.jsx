@@ -1,7 +1,7 @@
 import UserLink from "../user/UserLink";
 import { formatDistanceToNow } from "date-fns";
 import { useAuthContext } from "../../context/AuthContext";
-import useDeletePost from "../../hooks/useDeletePost";
+import useDeletePost from "../../hooks/post/useDeletePost";
 import { usePostsContext } from "../../context/PostsContext";
 
 

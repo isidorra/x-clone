@@ -1,5 +1,5 @@
 import { usePostsContext } from "../../context/PostsContext";
-import useGetAllPosts from "../../hooks/useGetAllPosts";
+import useGetAllPosts from "../../hooks/post/useGetAllPosts";
 import Post from "./Post";
 
 const ForYouFeed = () => {

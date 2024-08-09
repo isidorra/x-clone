@@ -6,7 +6,7 @@ import homeIcon from "../../assets/home.svg";
 import searchIcon from "../../assets/search.svg";
 import userIcon from "../../assets/user.svg";
 
-import useLogout from "../../hooks/useLogout";
+import useLogout from "../../hooks/auth/useLogout";
 const Sidebar = () => {
   const { loading, logout } = useLogout();
   return (

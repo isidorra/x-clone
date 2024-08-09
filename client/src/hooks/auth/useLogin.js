@@ -1,8 +1,8 @@
 import {useState} from "react";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { SERVER_URL } from "../App";
+import { SERVER_URL } from "../../App";
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const {setAuthUser} = useAuthContext();
