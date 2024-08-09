@@ -1,5 +1,5 @@
 import express from "express";
-import { create, deletePost, getAll, getAllByAuthorId } from "../controllers/post.controller.js";
+import { create, deletePost, getAll, getAllByAuthorId, like } from "../controllers/post.controller.js";
 import protectRoute from "../middleware/protectRoute.js";
 
 const router = express.Router();
@@ -9,6 +9,7 @@ router.get("/user-posts/:userId", protectRoute, getAllByAuthorId);
 
 
 router.post("/", protectRoute, create);
+router.put("/like", protectRoute, like);
 
 router.delete("/:postId", protectRoute, deletePost);
 

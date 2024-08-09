@@ -18,7 +18,10 @@ export const create = async (req, res) => {
       author: authorId,
     });
 
-    const populatedPost = await newPost.populate("author", ["fullName","profilePhoto"]);
+    const populatedPost = await newPost.populate("author", [
+      "fullName",
+      "profilePhoto",
+    ]);
 
     if (newPost) {
       await newPost.save();
@@ -46,13 +49,13 @@ export const deletePost = async (req, res) => {
     const userId = req.user._id;
 
     const post = await Post.findById(postId);
-    
+
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
     if (!post.author.equals(userId)) {
       return res.status(400).json({ error: "You are not the author" });
-   }
+    }
 
     await post.deleteOne({ _id: postId });
     res.status(200).json({ message: "Post deleted" });
@@ -62,15 +65,17 @@ export const deletePost = async (req, res) => {
   }
 };
 
-export const getAll = async(req, res) => {
-    try {
-        const posts = await Post.find().populate("author", ["fullName", "profilePhoto"]).sort({createdAt: -1});
-        res.status(200).json(posts);
-    } catch(error) {
-        console.log("Error in post controller, getAll function: ", error.message);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-}
+export const getAll = async (req, res) => {
+  try {
+    const posts = await Post.find()
+      .populate("author", ["fullName", "profilePhoto"])
+      .sort({ createdAt: -1 });
+    res.status(200).json(posts);
+  } catch (error) {
+    console.log("Error in post controller, getAll function: ", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 export const getAllByAuthorId = async (req, res) => {
   try {
@@ -81,10 +86,49 @@ export const getAllByAuthorId = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const posts = await Post.find({ author: userId }).populate("author", ["fullName", "profilePhoto"]).sort({createdAt: -1});
-    res.status(200).json({posts});
+    const posts = await Post.find({ author: userId })
+      .populate("author", ["fullName", "profilePhoto"])
+      .sort({ createdAt: -1 });
+    res.status(200).json({ posts });
   } catch (error) {
-    console.log("Error in post controller, getAllByUserId function: ", error.message);
+    console.log(
+      "Error in post controller, getAllByUserId function: ",
+      error.message
+    );
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const like = async (req, res) => {
+  try {
+    const { postId } = req.body;
+    const userId = req.user._id;
+
+    const post = await Post.findById(postId);
+    if(!post){
+      return res.status(404).json({error: "Post not found"});
+    }
+
+    if(post.likes.includes(userId)) {
+      post.likes = post.likes.filter((id) => !id.equals(userId));
+    } else {
+      post.likes.push(userId);
+    }
+
+
+    const updatedPost = await post.save();
+    await updatedPost.populate("author", ["fullName", "profilePhoto"]);
+    res.status(200).json({
+      _id: updatedPost._id,
+      content: updatedPost._id,
+      photo: updatedPost.photo,
+      author: updatedPost.author,
+      likes: updatedPost.likes,
+      comments: updatedPost.comments
+    });
+
+  } catch (error) {
+    console.log("Error in post controller, like function: ", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
