@@ -133,3 +133,33 @@ export const like = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const comment = async(req, res) => {
+  try{
+    const {comment, postId} = req.body;
+    const author = req.user._id;
+
+    const post = await Post.findById(postId);
+    if(!post) {
+      return res.status(404).json({erorr: "Post not found"});
+    }
+
+    post.comments.push({comment: comment, author: author});
+    const updatedPost = await post.save();
+    await updatedPost.populate("author", ["fullName", "profilePhoto"]);
+    res.status(200).json({
+        _id: updatedPost._id,
+        content: updatedPost.content,
+        photo: updatedPost.photo,
+        author: updatedPost.author,
+        likes: updatedPost.likes,
+        comments: updatedPost.comments,
+        createdAt: updatedPost.createdAt
+    })
+
+  } catch(error) {
+    console.log("Error in post controller, comment function: ", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
