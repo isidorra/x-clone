@@ -7,8 +7,10 @@ import searchIcon from "../../assets/search.svg";
 import userIcon from "../../assets/user.svg";
 
 import useLogout from "../../hooks/auth/useLogout";
+import { useAuthContext } from "../../context/AuthContext";
 const Sidebar = () => {
   const { loading, logout } = useLogout();
+  const {authUser} = useAuthContext();
   return (
     <div className="max-w-44 bg-primary md:w-full sticky top-0 left-0">
       <div className="h-screen p-3 md:p-5  flex flex-col border-r border-secondary border-opacity-50">
@@ -32,7 +34,7 @@ const Sidebar = () => {
             <span className="hidden md:block">Explore</span>
           </Link>
           <Link
-            to={"/"}
+            to={`/user/${authUser._id}`}
             className="flex items-center gap-3 my-3 md:my-2 hover:opacity-60 duration-200"
           >
             <img src={userIcon} className="mx-auto md:mx-0" />

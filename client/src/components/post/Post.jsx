@@ -35,6 +35,11 @@ const Post = ({ post }) => {
         p._id === updatedPost._id ? updatedPost : p
       );
       setForYouPosts(updatedPosts);
+    }
+    if (updatedPost) {
+      const updatedPosts = userPosts.map(p =>
+        p._id === updatedPost._id ? updatedPost : p
+      );
       setUserPosts(updatedPosts);
     }
   };

@@ -35,6 +35,8 @@ export const create = async (req, res) => {
           profilePhoto: populatedPost.author.profilePhoto,
         },
         createdAt: newPost.createdAt,
+        likes: newPost.likes, 
+        comments: newPost.comments
       });
     }
   } catch (error) {
