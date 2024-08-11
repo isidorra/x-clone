@@ -1,6 +1,7 @@
 import Post from "../models/post.model.js";
 import User from "../models/user.model.js";
-
+import firebaseApp from "../server.js";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 export const create = async (req, res) => {
   try {
     const { content, photo } = req.body;
@@ -47,6 +48,7 @@ export const create = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
+    const storage = getStorage(firebaseApp);
     const { postId } = req.params;
     const userId = req.user._id;
 
@@ -57,6 +59,19 @@ export const deletePost = async (req, res) => {
     }
     if (!post.author.equals(userId)) {
       return res.status(400).json({ error: "You are not the author" });
+    }
+
+    if (post.photo) {
+      // Extract the path relative to your storage bucket
+      const photoPath = post.photo.split('?')[0]; // Remove URL query parameters if present
+      const photoRef = ref(storage, photoPath);
+
+      try {
+        await deleteObject(photoRef);
+        console.log("File deleted successfully");
+      } catch (error) {
+        console.log("Error deleting file:", error.message);
+      }
     }
 
     await post.deleteOne({ _id: postId });
