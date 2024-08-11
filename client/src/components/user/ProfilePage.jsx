@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useGetUserInfo from "../../hooks/user/useGetUserInfo";
 import userIcon from "../../assets/profile-user.jpg";
 import { useAuthContext } from "../../context/AuthContext";
@@ -43,9 +43,9 @@ const ProfilePage = () => {
             )}
 
             {authUser._id === userInfo._id && (
-              <button className="rounded-full border border-secondary border-opacity-50 font-semibold py-2 px-4 text-sm md:text-lg duration-200">
+              <Link to={"/edit-profile"} className="rounded-full border border-secondary border-opacity-50 font-semibold py-2 px-4 text-sm md:text-lg duration-200">
                 Edit profile
-              </button>
+              </Link>
             ) }
 
             {userInfo._id !== authUser._id && !authUser.following.includes(userInfo._id) && (

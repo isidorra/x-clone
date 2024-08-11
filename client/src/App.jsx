@@ -8,6 +8,7 @@ import Home from "./components/home/Home";
 import Layout from "./components/home/Layout";
 import ProfilePage from "./components/user/ProfilePage";
 import ExplorePage from "./components/user/ExplorePage";
+import EditProfilePage from "./components/user/EditProfilePage";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/user/:id" element={<ProfilePage />} />
             <Route path="/search" element={<ExplorePage/>}/>
+            <Route path="/edit-profile" element={<EditProfilePage/>}/>
           </Route>
         ) : (
           <>
