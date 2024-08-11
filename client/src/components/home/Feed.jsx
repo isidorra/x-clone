@@ -10,7 +10,7 @@ const Feed = () => {
     <div className="w-full max-w-[800px] mx-auto">
       <CreatePost />
 
-      <div className="flex items-start justify-between p-5 border-b border-secondary border-opacity-50">
+      <div className="flex items-start justify-between p-2 md:p-5 border-b border-secondary border-opacity-50">
         <button
           className={selectedFeed === 0 ? selectedClasses : `mx-auto`}
           onClick={() => setSelectedFeed(0)}

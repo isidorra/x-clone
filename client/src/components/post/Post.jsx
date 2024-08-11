@@ -71,7 +71,7 @@ const Post = ({ post }) => {
             <button
               disabled={loadingFollow}
               onClick={handleFollow}
-              className="border border-secondary rounded-full py-2 px-3 mr-auto"
+              className="border border-secondary rounded-full md:py-2 md:px-3 mr-auto"
             >
               Follow
             </button>
@@ -80,7 +80,7 @@ const Post = ({ post }) => {
             <button
               disabled={loadingFollow}
               onClick={handleFollow}
-              className="border border-secondary rounded-full py-2 px-3 mr-auto"
+              className="border border-secondary rounded-full py-2 px-3 text-sm md:text-base mr-auto"
             >
               Unfollow
             </button>
@@ -114,8 +114,8 @@ const Post = ({ post }) => {
       </div>
 
       {commentSection &&
-        <div className="pl-10 py-10">
-          <h2 className="text-xl">Comments</h2>
+        <div className="md:pl-10 md:py-10 pl-5 py-5">
+          <h2 className="text-lg md:text-xl">Comments</h2>
           <CreateComment postId={post._id}/>
           {post.comments.length === 0 && <p className="opacity-50">Be the first to leave a comment on this post.</p>}
           {post.comments.length > 0 && 

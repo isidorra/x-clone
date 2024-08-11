@@ -24,7 +24,7 @@ const Search = () => {
 
   return (
     <div className="w-full max-w-[800px] mx-auto">
-      <div className="flex items-center gap-2 mt-5">
+      <div className="flex items-center gap-2 mt-5 px-5 md:px-0">
         <img src={searchIcon} alt="Search" />
         <input
           value={input}
@@ -37,7 +37,7 @@ const Search = () => {
       {loading && <p>...</p>}
       {!loading && users.length === 0 && input && <p>No user found</p>}
       {!loading && users.length > 0 && (
-        <div>
+        <div className="px-5 md:px-0">
           {users.map((user) => (
             <div className="my-3" key={user._id}>
               <UserLink user={user} />

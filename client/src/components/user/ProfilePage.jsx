@@ -31,19 +31,19 @@ const ProfilePage = () => {
             {userInfo.coverPhoto ? (
               <img src={userInfo.coverPhoto} alt="Cover" />
             ) : (
-              <div className="w-full h-72 bg-gray-700"></div>
+              <div className="w-full h-32 md:h-72 bg-gray-700"></div>
             )}
           </div>
 
-          <div className="flex items-end justify-between max-w-[900px] mx-auto -my-20">
+          <div className="flex items-end justify-between max-w-[900px] mx-auto -my-10 md:-my-20 px-5">
             {userInfo.profilePhoto ? (
               <img src={userInfo.profilePhoto} alt="Profile" />
             ) : (
-              <img src={userIcon} alt="Profile" className="w-48 rounded-full" />
+              <img src={userIcon} alt="Profile" className="w-24 md:w-48 rounded-full" />
             )}
 
             {authUser._id === userInfo._id && (
-              <button className="rounded-full border border-secondary border-opacity-50 font-semibold py-2 px-4 text-lg duration-200">
+              <button className="rounded-full border border-secondary border-opacity-50 font-semibold py-2 px-4 text-sm md:text-lg duration-200">
                 Edit profile
               </button>
             ) }
@@ -70,13 +70,13 @@ const ProfilePage = () => {
             
           </div>
           <div className="max-w-[900px] mx-auto mt-20 py-5">
-            <h1 className="font-semibold text-2xl">{userInfo.fullName}</h1>
-            <div className="flex items-start gap-2 mt-2 opacity-60 ">
+            <h1 className="font-semibold text-xl md:text-2xl px-5">{userInfo.fullName}</h1>
+            <div className="flex items-start gap-2 mt-2 opacity-60 px-5">
               <img src={calendarIcon} alt="Calendar" />
               <p>Joined {format(userInfo.createdAt, "MMMM yyyy")}</p>
             </div>
 
-            <div className="flex items-center gap-5 mt-2 text-lg">
+            <div className="flex items-center gap-5 mt-2 text-lg px-5">
               <div>
                 <span className="opacity-100">{userInfo.followers.length}</span>
                 <span className="opacity-60 ml-2">Followers</span>

@@ -21,19 +21,19 @@ const CreatePost = () => {
       <div className="flex items-start gap-5 py-10 px-5 border-b border-secondary border-opacity-50">
         <img
           src={authUser.profilePhoto ? authUser.profilePhoto : profileIcon}
-          className="w-12"
+          className="w-10 md:w-12"
         />
         <form onSubmit={handleSubmit} className="w-full">
           <input
             value={content}
             onChange={ev => setContent(ev.target.value)}
             placeholder="What's happening?"
-            className="outline-none bg-primary block py-2 text-lg"
+            className="outline-none bg-primary block md:py-2 md:text-lg"
           />
 
           <div className="flex items-center justify-between">
             <img src={imageIcon} />
-            <button disabled={loading} className="bg-accent rounded-full py-2 px-4 text-lg hover:bg-accent-dark duration-200">
+            <button disabled={loading} className="bg-accent rounded-full py-2 px-4 md:text-lg hover:bg-accent-dark duration-200">
               Post
             </button>
           </div>
