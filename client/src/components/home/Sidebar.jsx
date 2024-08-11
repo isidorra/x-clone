@@ -27,7 +27,7 @@ const Sidebar = () => {
             <span className="hidden md:block">Home</span>
           </Link>
           <Link
-            to={"/"}
+            to={"/search"}
             className="flex items-center gap-3 my-3 md:my-2 hover:opacity-60 duration-200"
           >
             <img src={searchIcon} className="mx-auto md:mx-0" />

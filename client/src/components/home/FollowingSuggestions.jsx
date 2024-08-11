@@ -4,7 +4,7 @@ import UserLink from "../user/UserLink";
 const FollowingSuggestions = () => {
   const {loading, usersToFollow} = useGetFollowingSuggestions();
   return (
-    <div className="sticky top-0 right-0 hidden md:block max-w-52 w-full">
+    <div className="sticky top-0 right-0 hidden lg:block max-w-52 w-full">
       <div className=" border-l border-secondary border-opacity-50 p-5 h-screen">
         <h2 className="text-xl p-2">Explore</h2>
 

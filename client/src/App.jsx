@@ -7,6 +7,7 @@ import { useAuthContext } from "./context/AuthContext";
 import Home from "./components/home/Home";
 import Layout from "./components/home/Layout";
 import ProfilePage from "./components/user/ProfilePage";
+import ExplorePage from "./components/user/ExplorePage";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -17,6 +18,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/user/:id" element={<ProfilePage />} />
+            <Route path="/search" element={<ExplorePage/>}/>
           </Route>
         ) : (
           <>
