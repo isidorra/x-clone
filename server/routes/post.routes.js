@@ -1,11 +1,12 @@
 import express from "express";
-import { comment, create, deleteComment, deletePost, getAll, getAllByAuthorId, like } from "../controllers/post.controller.js";
+import { comment, create, deleteComment, deletePost, getAll, getAllByAuthorId, getFollowingPosts, like } from "../controllers/post.controller.js";
 import protectRoute from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
 router.get("/", protectRoute, getAll);
 router.get("/user-posts/:userId", protectRoute, getAllByAuthorId);
+router.get("/following-posts", protectRoute, getFollowingPosts);
 
 
 router.post("/", protectRoute, create);

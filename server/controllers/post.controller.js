@@ -86,6 +86,27 @@ export const getAll = async (req, res) => {
   }
 };
 
+export const getFollowingPosts = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    const followingPosts = await Post.find({ author: { $in: user.following } })
+      .populate("author", ["fullName", "profilePhoto"])
+      .populate({
+        path: "comments.author",
+        select: ["fullName", "profilePhoto"],
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(followingPosts);
+  } catch (error) {
+    console.log("Error in post controller, getAll function: ", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export const getAllByAuthorId = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -130,10 +151,10 @@ export const like = async (req, res) => {
 
     const updatedPost = await post.save();
     await updatedPost.populate("author", ["fullName", "profilePhoto"]);
-      await updatedPost.populate({
-        path: "comments.author",
-        select: ["fullName", "profilePhoto"],
-      });
+    await updatedPost.populate({
+      path: "comments.author",
+      select: ["fullName", "profilePhoto"],
+    });
     res.status(200).json({
       _id: updatedPost._id,
       content: updatedPost.content,
@@ -163,9 +184,9 @@ export const comment = async (req, res) => {
     const updatedPost = await post.save();
     await updatedPost.populate("author", ["fullName", "profilePhoto"]);
     await updatedPost.populate({
-        path: "comments.author",
-        select: ["fullName", "profilePhoto"],
-      });
+      path: "comments.author",
+      select: ["fullName", "profilePhoto"],
+    });
     res.status(200).json({
       _id: updatedPost._id,
       content: updatedPost.content,
@@ -202,13 +223,13 @@ export const deleteComment = async (req, res) => {
     }
 
     post.comments = post.comments.filter((c) => !c._id.equals(commentId));
-    
+
     const updatedPost = await post.save();
     await updatedPost.populate("author", ["fullName", "profilePhoto"]);
     await updatedPost.populate({
-        path: "comments.author",
-        select: ["fullName", "profilePhoto"],
-      });
+      path: "comments.author",
+      select: ["fullName", "profilePhoto"],
+    });
     res.status(200).json({
       _id: updatedPost._id,
       content: updatedPost.content,
