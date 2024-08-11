@@ -7,13 +7,14 @@ import { formatDistanceToNow } from "date-fns";
 const Comment = ({ comment, postId }) => {
   const { authUser } = useAuthContext();
   const { loading, deleteComment } = useDeleteComment();
-  const { forYouPosts, setForYouPosts, userPosts, setUserPosts } =
+  const { forYouPosts, setForYouPosts, userPosts, setUserPosts, followingPosts, setFollowingPosts } =
     usePostsContext();
 
   const handleDelete = async () => {
     const updatedPost = await deleteComment(comment._id, postId);
     if (updatedPost) {
     setForYouPosts(forYouPosts.map((p) => (p._id === updatedPost._id ? updatedPost : p)));
+    setFollowingPosts(followingPosts.map((p) => (p._id === updatedPost._id ? updatedPost : p)));
     setUserPosts(userPosts.map((p) => (p._id === updatedPost._id ? updatedPost : p)));
     }
   };

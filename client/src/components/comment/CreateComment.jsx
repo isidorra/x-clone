@@ -5,7 +5,7 @@ import { usePostsContext } from "../../context/PostsContext";
 const CreateComment = ({postId}) => {
   const [comment, setComment] = useState("");
   const {loading, createComment} = useCreateComment();
-  const {forYouPosts, setForYouPosts, userPosts, setUserPosts} = usePostsContext();
+  const {forYouPosts, setForYouPosts, userPosts, setUserPosts, followingPosts, setFollowingPosts} = usePostsContext();
   const handleSubmit = async(ev) => {
     ev.preventDefault();  
     const updatedPost = await createComment(comment, postId);
@@ -20,6 +20,12 @@ const CreateComment = ({postId}) => {
         p._id === updatedPost._id ? updatedPost : p
       );
       setUserPosts(updatedPosts);
+    }
+    if (updatedPost) {
+      const updatedPosts = followingPosts.map(p =>
+        p._id === updatedPost._id ? updatedPost : p
+      );
+      setFollowingPosts(updatedPosts);
     }
 
     setComment("");

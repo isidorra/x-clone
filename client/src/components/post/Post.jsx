@@ -17,13 +17,14 @@ const Post = ({ post }) => {
   const { loading, deletePost } = useDeletePost();
   const { loadingFollow, follow } = useFollow();
   const {loadingLike, like} = useLike();
-  const { forYouPosts, setForYouPosts, userPosts, setUserPosts } = usePostsContext();
+  const { forYouPosts, setForYouPosts, userPosts, setUserPosts, followingPosts, setFollowingPosts } = usePostsContext();
   const [commentSection, setCommentSection] = useState(false);
 
 
   const handleDelete = (postId) => {
     deletePost(postId, () => {
       setForYouPosts(forYouPosts.filter((p) => p._id !== postId));
+      setFollowingPosts(followingPosts.filter((p) => p._id !== postId));
       setUserPosts(userPosts.filter((p) => p._id !== postId));
     });
   };
@@ -45,6 +46,13 @@ const Post = ({ post }) => {
         p._id === updatedPost._id ? updatedPost : p
       );
       setUserPosts(updatedPosts);
+    }
+
+    if (updatedPost) {
+      const updatedPosts = followingPosts.map(p =>
+        p._id === updatedPost._id ? updatedPost : p
+      );
+      setFollowingPosts(updatedPosts);
     }
   };
 
