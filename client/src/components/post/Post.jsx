@@ -98,7 +98,7 @@ const Post = ({ post }) => {
       </div>
       <div className="mt-5">
         <p className="text-justify">{post.content}</p>
-        <img className="w-full mt-5" alt="Post" />
+        {post.photo && <img src={post.photo} className="w-full mt-5" alt="Post" />}
       </div>
 
       <div className="flex items-center gap-5 mt-10">
