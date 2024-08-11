@@ -13,16 +13,33 @@ function App() {
   return (
     <>
       <Routes>
-        {authUser ? 
+        {/* {authUser ? 
           <Route element={<Layout/>}>
             <Route path="/" element={<Home/>}/>
           </Route>
           :
           <Route path="/" element={<Hero/>}/>
         }
-        <Route element={<Layout/>}>
-          <Route path="/user/:id" element={authUser ? <ProfilePage/> : <Navigate to="/"/>}/>
-        </Route>
+        {!authUser ? 
+        <Route path="/" element={<Hero/>}/>
+        :
+          <Route element={<Layout/>}>
+            <Route path="/user/:id" element={<ProfilePage/>}/>
+          </Route>
+          
+        } */}
+        {authUser ? (
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/user/:id" element={<ProfilePage />} />
+          </Route>
+        ) : (
+          <>
+            <Route path="/" element={<Hero />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </>
+        )}
+        
         
         <Route path="/login" element={authUser ? <Navigate to="/" /> : <Login />} />
         <Route path="/register" element={authUser ? <Navigate to="/" /> : <Register />} />

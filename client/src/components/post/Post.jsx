@@ -8,6 +8,9 @@ import likeIcon from "../../assets/like.svg";
 import likedIcon from "../../assets/liked.svg";
 import commentIcon from "../../assets/comment.svg";
 import useLike from "../../hooks/post/useLike";
+import { useState } from "react";
+import CreateComment from "../comment/CreateComment";
+import Comment from "../comment/Comment";
 
 const Post = ({ post }) => {
   const { authUser } = useAuthContext();
@@ -15,6 +18,7 @@ const Post = ({ post }) => {
   const { loadingFollow, follow } = useFollow();
   const {loadingLike, like} = useLike();
   const { forYouPosts, setForYouPosts, userPosts, setUserPosts } = usePostsContext();
+  const [commentSection, setCommentSection] = useState(false);
 
 
   const handleDelete = (postId) => {
@@ -95,11 +99,27 @@ const Post = ({ post }) => {
           <p>{post.likes.length}</p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div onClick={() => setCommentSection(!commentSection)} className="flex items-center gap-2">
           <img src={commentIcon} alt="Comment"/>
           <p>{post.comments.length}</p>
         </div>
       </div>
+
+      {commentSection &&
+        <div className="pl-10 py-10">
+          <h2 className="text-xl">Comments</h2>
+          <CreateComment postId={post._id}/>
+          {post.comments.length === 0 && <p className="opacity-50">Be the first to leave a comment on this post.</p>}
+          {post.comments.length > 0 && 
+            <div>
+              {post.comments.slice().reverse().map((comment) => 
+                <Comment key={comment._id} comment={comment}/>
+              )}
+            </div>
+          }
+
+        </div>
+      }
     </div>
   );
 };

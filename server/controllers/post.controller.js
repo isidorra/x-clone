@@ -35,8 +35,8 @@ export const create = async (req, res) => {
           profilePhoto: populatedPost.author.profilePhoto,
         },
         createdAt: newPost.createdAt,
-        likes: newPost.likes, 
-        comments: newPost.comments
+        likes: newPost.likes,
+        comments: newPost.comments,
       });
     }
   } catch (error) {
@@ -62,7 +62,10 @@ export const deletePost = async (req, res) => {
     await post.deleteOne({ _id: postId });
     res.status(200).json({ message: "Post deleted" });
   } catch (error) {
-    console.log("Error in post controller, delete post function: ", error.message);
+    console.log(
+      "Error in post controller, delete post function: ",
+      error.message
+    );
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -71,6 +74,10 @@ export const getAll = async (req, res) => {
   try {
     const posts = await Post.find()
       .populate("author", ["fullName", "profilePhoto"])
+      .populate({
+        path: "comments.author",
+        select: ["fullName", "profilePhoto"],
+      })
       .sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (error) {
@@ -90,6 +97,10 @@ export const getAllByAuthorId = async (req, res) => {
 
     const posts = await Post.find({ author: userId })
       .populate("author", ["fullName", "profilePhoto"])
+      .populate({
+        path: "comments.author",
+        select: ["fullName", "profilePhoto"],
+      })
       .sort({ createdAt: -1 });
     res.status(200).json({ posts });
   } catch (error) {
@@ -107,19 +118,22 @@ export const like = async (req, res) => {
     const userId = req.user._id;
 
     const post = await Post.findById(postId);
-    if(!post){
-      return res.status(404).json({error: "Post not found"});
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
     }
 
-    if(post.likes.includes(userId)) {
+    if (post.likes.includes(userId)) {
       post.likes = post.likes.filter((id) => !id.equals(userId));
     } else {
       post.likes.push(userId);
     }
 
-
     const updatedPost = await post.save();
     await updatedPost.populate("author", ["fullName", "profilePhoto"]);
+      await updatedPost.populate({
+        path: "comments.author",
+        select: ["fullName", "profilePhoto"],
+      });
     res.status(200).json({
       _id: updatedPost._id,
       content: updatedPost.content,
@@ -127,43 +141,45 @@ export const like = async (req, res) => {
       author: updatedPost.author,
       likes: updatedPost.likes,
       comments: updatedPost.comments,
-      createdAt: updatedPost.createdAt
+      createdAt: updatedPost.createdAt,
     });
-
   } catch (error) {
     console.log("Error in post controller, like function: ", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-export const comment = async(req, res) => {
-  try{
-    const {comment, postId} = req.body;
+export const comment = async (req, res) => {
+  try {
+    const { comment, postId } = req.body;
     const author = req.user._id;
 
     const post = await Post.findById(postId);
-    if(!post) {
-      return res.status(404).json({erorr: "Post not found"});
+    if (!post) {
+      return res.status(404).json({ erorr: "Post not found" });
     }
 
-    post.comments.push({comment: comment, author: author});
+    post.comments.push({ comment: comment, author: author });
     const updatedPost = await post.save();
     await updatedPost.populate("author", ["fullName", "profilePhoto"]);
+    await updatedPost.populate({
+        path: "comments.author",
+        select: ["fullName", "profilePhoto"],
+      });
     res.status(200).json({
-        _id: updatedPost._id,
-        content: updatedPost.content,
-        photo: updatedPost.photo,
-        author: updatedPost.author,
-        likes: updatedPost.likes,
-        comments: updatedPost.comments,
-        createdAt: updatedPost.createdAt
-    })
-
-  } catch(error) {
+      _id: updatedPost._id,
+      content: updatedPost.content,
+      photo: updatedPost.photo,
+      author: updatedPost.author,
+      likes: updatedPost.likes,
+      comments: updatedPost.comments,
+      createdAt: updatedPost.createdAt,
+    });
+  } catch (error) {
     console.log("Error in post controller, comment function: ", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
 export const deleteComment = async (req, res) => {
   try {
@@ -174,21 +190,40 @@ export const deleteComment = async (req, res) => {
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
-    const comment = post.comments.find(c => c._id.equals(commentId));
+    const comment = post.comments.find((c) => c._id.equals(commentId));
 
     if (!comment) {
       return res.status(404).json({ error: "Comment not found" });
     }
     if (!comment.author.equals(author)) {
-      return res.status(403).json({ error: "You are not the author of the comment" });
+      return res
+        .status(403)
+        .json({ error: "You are not the author of the comment" });
     }
 
-    post.comments = post.comments.filter(c => !c._id.equals(commentId));
-    await post.save();
-
-    res.status(200).json({ post });
+    post.comments = post.comments.filter((c) => !c._id.equals(commentId));
+    
+    const updatedPost = await post.save();
+    await updatedPost
+      .populate("author", ["fullName", "profilePhoto"])
+      .populate({
+        path: "comments.author",
+        select: ["fullName", "profilePhoto"],
+      });
+    res.status(200).json({
+      _id: updatedPost._id,
+      content: updatedPost.content,
+      photo: updatedPost.photo,
+      author: updatedPost.author,
+      likes: updatedPost.likes,
+      comments: updatedPost.comments,
+      createdAt: updatedPost.createdAt,
+    });
   } catch (error) {
-    console.log("Error in post controller, deleteComment function: ", error.message);
+    console.log(
+      "Error in post controller, deleteComment function: ",
+      error.message
+    );
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
