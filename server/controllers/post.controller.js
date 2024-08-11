@@ -204,9 +204,8 @@ export const deleteComment = async (req, res) => {
     post.comments = post.comments.filter((c) => !c._id.equals(commentId));
     
     const updatedPost = await post.save();
-    await updatedPost
-      .populate("author", ["fullName", "profilePhoto"])
-      .populate({
+    await updatedPost.populate("author", ["fullName", "profilePhoto"]);
+    await updatedPost.populate({
         path: "comments.author",
         select: ["fullName", "profilePhoto"],
       });

@@ -113,7 +113,7 @@ const Post = ({ post }) => {
           {post.comments.length > 0 && 
             <div>
               {post.comments.slice().reverse().map((comment) => 
-                <Comment key={comment._id} comment={comment}/>
+                <Comment key={comment._id} comment={comment} postId={post._id}/>
               )}
             </div>
           }
