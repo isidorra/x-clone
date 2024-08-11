@@ -110,3 +110,23 @@ export const getRandomUsersNotFollowing = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const search = async(req, res) => {
+  try {
+    const {searchQuery} = req.params;
+    const regex = new RegExp(searchQuery, 'i');
+
+    const result = await User.find({ fullName: { $regex: regex } });
+    const users = result.map(user => ({
+      _id: user._id,
+      fullName: user.fullName,
+      profilePhoto: user.profilePhoto
+    }));
+
+    res.status(200).json(users);
+  } catch(error) {
+    console.log("Error in user controller, search function: ", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
