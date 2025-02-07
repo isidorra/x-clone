@@ -61,7 +61,7 @@ const Post = ({ post }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <UserLink user={post.author} />
-          <p>|</p>
+          <p className="hidden sm:block">|</p>
           <p className="opacity-50 text-sm">
             {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
           </p>
@@ -71,7 +71,7 @@ const Post = ({ post }) => {
             <button
               disabled={loadingFollow}
               onClick={handleFollow}
-              className="border border-secondary rounded-full md:py-2 md:px-3 mr-auto"
+              className="border border-secondary rounded-full p-2 md:py-2 md:px-3 mr-auto"
             >
               Follow
             </button>
